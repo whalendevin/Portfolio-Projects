@@ -25,14 +25,16 @@ add Def integer
 
 update MonthlyPerformance
 set Def = (CASE
-					WHEN Delinq < 30
+					WHEN Delinq < 10
                     THEN 0
 					ELSE 1
            END);
+
+ALTER TABLE OriginationData
+DROP COLUMN Def
 
 SELECT * 
 FROM OriginationData
   inner join MonthlyPerformance
   on OriginationData.ID = MonthlyPerformance.ID
-
- /* right click on the results data and save as csv*/
+  WHERE FirstPaymentDate<200901 AND DTI<101 AND LTV<101 AND CLTV<101
